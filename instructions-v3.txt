@@ -1,13 +1,15 @@
 # Notice  I copied something inside suhan-paradkar's instructions-v2,eNB256's instruction,and also termux's official build options
 #So its just an article collection
 
-#EDIT TIME=2023-2-1
+#EDIT TIME=2023-7-24
 
 #Firstly solve the dependency problem
 
+# Manually disable TUR first!
+
 apt install x11-repo -y
 
-apt install clang lld cmake autoconf automake libtool binutils '*ndk*' make python git libandroid-shmem-static 'vulkan*' ninja llvm bison flex libx11 libdrm libpixman libxfixes libjpeg-turbo xtrans libxxf86vm xorg-xrandr xorg-font-util xorg-util-macros libxfont2 libxkbfile libpciaccess xcb-util-renderutil xcb-util-image xcb-util-keysyms xcb-util-wm xorg-xkbcomp xkeyboard-config libxdamage libxinerama libepoxy xwayland libwayland libwayland-protocols xorg* virglrenderer -y
+apt install clang lld cmake autoconf automake libtool binutils '*ndk*' make python git libandroid-shmem-static vulkan-headers vulkan-loader-android vulkan-tools ninja llvm bison flex libx11 libdrm libpixman libxfixes libjpeg-turbo xtrans libxxf86vm xorg-xrandr xorg-font-util xorg-util-macros libxfont2 libxkbfile libpciaccess xcb-util-renderutil xcb-util-image xcb-util-keysyms xcb-util-wm xorg-xkbcomp xkeyboard-config libxdamage libxinerama libepoxy xwayland libwayland libwayland-protocols xorg* virglrenderer -y
 apt remove xorg*static -y
 pip install meson mako
 
@@ -30,20 +32,20 @@ git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git -b virglrendere
 
 #1 xorgproto
 
-cd xorgproto*
+cd ~/builds/xorgproto
 ./autogen.sh --prefix=$PREFIX --with-xmlto=no --with-fop=no --with-xsltproc=no
 make -j8 install
 
 #2 libwayland
 
-cd ../wayland*
+cd ~/builds/wayland
 mkdir b ; cd b
 meson -Dprefix=$PREFIX -Ddocumentation=false ..
 ninja -j8 install
 
 #3 wayland-protocols
 
-cd ../../*protocols
+cd ~/builds/wayland-protocols
 mkdir b
 cd b
 meson -Dprefix=$PREFIX ..
@@ -51,7 +53,7 @@ ninja -j8 install
 
 #4 libxshmfence
 
-cd ../../libxshm*
+cd ~/builds/libxshmfence
 ./autogen.sh --prefix=$PREFIX --with-shared-memory-dir=$TMPDIR
 sed -i s/values.h/limits.h/ ./src/xshmfence_futex.h
 make -j8 install CPPFLAGS=-DMAXINT=INT_MAX
