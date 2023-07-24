@@ -13,6 +13,9 @@ apt install clang lld cmake autoconf automake libtool binutils '*ndk*' make pyth
 apt remove xorg*static -y
 pip install meson mako
 
+# benchmark
+# mesa-utils glxmark2
+
 #Collect the git repos
 
 cd ~
