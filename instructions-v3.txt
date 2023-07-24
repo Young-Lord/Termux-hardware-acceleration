@@ -93,6 +93,7 @@ ninja -j8 install
 #8 libsha1
 
 cd ~/builds/libsha1
+sed -i 's/static num_test/static int num_test/' test.c
 ./autogen.sh --prefix=$PREFIX
 make -j8 install
 
