@@ -90,7 +90,13 @@ cd b
 meson -Dprefix=$PREFIX -Degl=yes -Dglx=yes -Dx11=true -Dtests=false -Dc_args=-U__ANDROID__ -Dbuildtype=release ..
 ninja -j8 install
 
-#8 X-server
+#8 libsha1
+
+cd ~/builds/libsha1
+./autogen.sh --prefix=$PREFIX
+make -j8 install
+
+#9 X-server
 
 cd ~/builds/xorg-server-*
 wget https://github.com/Young-Lord/Termux-hardware-acceleration/raw/main/patches/xserver.patch
@@ -98,7 +104,7 @@ git apply xserver.patch
 ./autogen.sh --enable-mitshm --enable-xcsecurity --enable-xf86bigfont --enable-xwayland --enable-xorg --enable-xnest --enable-xvfb --disable-xwin --enable-xephyr --enable-kdrive --disable-devel-docs --disable-config-hal --disable-config-udev --disable-unit-tests --disable-selective-werror --disable-static --without-dtrace --disable-glamor --enable-dri --enable-dri2 --enable-dri3 --enable-glx --with-sha1=libsha1 --with-pic --prefix=$PREFIX
 make install -j4 LDFLAGS=' -fuse-ld=lld /data/data/com.termux/files/usr/lib/libandroid-shmem.a -llog'
 
-#9 virglrenderer
+#10 virglrenderer
 
 cd ~/builds
 cd virgl*
